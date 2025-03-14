@@ -19,17 +19,13 @@ jobs:
                             --arg branch "${{ github.ref_name }}" \
                             --arg commit "${{ github.event.head_commit.message }}" \
                             --arg url "${{ github.event.head_commit.url }}" \
-                            --argjson color 8388736 \
+                            --argjson color 16777215 \
                             '{
                               "username": "GitHub",
                               "embeds": [{
                                 "title": "🚀 New Push to Repository!",
                                 "color": $color,
-                                "fields": [
-                                  { "name": "Repository", "value": "`\($repo)`", "inline": true },
-                                  { "name": "Branch", "value": "`\($branch)`", "inline": true },
-                                  { "name": "Commit Message", "value": "\($commit)", "inline": false }
-                                ],
+                                "description": "• **Repository:** `\($repo)`\n• **Branch:** `\($branch)`\n• **Commit Message:** \($commit)\n• [View Commit](\($url))",
                                 "url": "\($url)",
                                 "footer": { "text": "GitHub Actions • Push Notification" }
                               }]
