@@ -19,5 +19,19 @@ jobs:
                             --arg branch "${{ github.ref_name }}" \
                             --arg commit "${{ github.event.head_commit.message }}" \
                             --arg url "${{ github.event.head_commit.url }}" \
-                            '{"username": "GitHub", "content": "**New Push to Repository!**\nRepo: \($repo)\nBranch: \($branch)\nCommit: \($commit)\n[View Commit](\($url))"}')" \
+                            --argjson color 8388736 \
+                            '{
+                              "username": "GitHub",
+                              "embeds": [{
+                                "title": "🚀 New Push to Repository!",
+                                "color": $color,
+                                "fields": [
+                                  { "name": "Repository", "value": "`\($repo)`", "inline": true },
+                                  { "name": "Branch", "value": "`\($branch)`", "inline": true },
+                                  { "name": "Commit Message", "value": "\($commit)", "inline": false }
+                                ],
+                                "url": "\($url)",
+                                "footer": { "text": "GitHub Actions • Push Notification" }
+                              }]
+                            }')" \
                "$DISCORD_WEBHOOK_URL"
