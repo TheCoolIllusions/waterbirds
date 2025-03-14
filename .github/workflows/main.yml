@@ -21,7 +21,7 @@ jobs:
                             --arg url "${{ github.event.head_commit.url }}" \
                             --argjson color 16777215 \
                             '{
-                              "username": "Updates",
+                              "username": "Fuloria Scripts - Github Commits",
                               "embeds": [{
                                 "title": "🚀 New Push to Repository!",
                                 "color": $color,
