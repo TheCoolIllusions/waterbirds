@@ -1,0 +1,19 @@
+name: Notify Discord on Push
+
+on:
+  push:
+    branches:
+      - main  # Change this if you want a different branch
+
+jobs:
+  discordNotify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send Discord Webhook
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK }}
+        run: |
+          curl -H "Content-Type: application/json" \
+               -X POST \
+               -d '{"username": "GitHub", "content": "**New Push to Repository!**\nRepo: '${{ github.repository }}'\nBranch: '${{ github.ref_name }}'\nCommit: '${{ github.event.head_commit.message }}'\n[View Commit]('${{ github.event.head_commit.url }}')"}' \
+               "$DISCORD_WEBHOOK_URL"
