@@ -3,7 +3,7 @@ name: Notify Discord on Push
 on:
   push:
     branches:
-      - main  # Change this if you want a different branch
+      - main  # Change if needed
 
 jobs:
   discordNotify:
@@ -15,5 +15,9 @@ jobs:
         run: |
           curl -H "Content-Type: application/json" \
                -X POST \
-               -d '{"username": "GitHub", "content": "**New Push to Repository!**\nRepo: '${{ github.repository }}'\nBranch: '${{ github.ref_name }}'\nCommit: '${{ github.event.head_commit.message }}'\n[View Commit]('${{ github.event.head_commit.url }}')"}' \
+               -d "$(jq -n --arg repo "${{ github.repository }}" \
+                            --arg branch "${{ github.ref_name }}" \
+                            --arg commit "${{ github.event.head_commit.message }}" \
+                            --arg url "${{ github.event.head_commit.url }}" \
+                            '{"username": "GitHub", "content": "**New Push to Repository!**\nRepo: \($repo)\nBranch: \($branch)\nCommit: \($commit)\n[View Commit](\($url))"}')" \
                "$DISCORD_WEBHOOK_URL"
